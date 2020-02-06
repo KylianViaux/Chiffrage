@@ -30,15 +30,11 @@ public class Main {
 		 */
 		Random random1 = new Random();
 		Random random2 = new Random();
-		p = BigInteger.probablePrime(20, random1);
-		q = BigInteger.probablePrime(20, random2);
+		p = BigInteger.probablePrime(500, random1);
+		q = BigInteger.probablePrime(500, random2);
 		BigInteger un = new BigInteger("1");
 		
 		
-		/**
-		 * n = p*q
-		 * m = (p-1) * (q-1)
-		 */
 		n = p.multiply(q);
 		m = (p.subtract(un)).multiply(q.subtract(un));
 		
@@ -73,12 +69,15 @@ public class Main {
 		return e;
 	}
 	
-	// 
-	public static Pair creationClePrivee() {
-		System.out.println("valeur de e : " + e.intValue());
+	// Créer une clé privée à partir d'une clé public et d'une valeur m.
+	public static Pair creationClePrivee(Pair clePublic, BigInteger m) {
+		// Valeur temporaire pour 2 pour les tests.
 		BigInteger valeurDeux = BigInteger.valueOf(2);
-		BigInteger r1 = BigInteger.valueOf(e.intValue());
-		BigInteger r2 = BigInteger.valueOf(m.intValue());
+		// La valeur e
+		BigInteger r1 = clePublic.get_deuxieme();
+		// La valeur m
+		BigInteger r2 = m;
+		// Les différentes valeurs pour les valeurs r3, u1, u2, u2, u3, v1, v2, v3.
 		BigInteger r3 = BigInteger.valueOf(1);
 		BigInteger u1 = BigInteger.valueOf(1);
 		BigInteger u2 = BigInteger.valueOf(0);
@@ -86,9 +85,11 @@ public class Main {
 		BigInteger v1 = BigInteger.valueOf(0);
 		BigInteger v2 = BigInteger.valueOf(1);
 		BigInteger v3 = BigInteger.valueOf(1);
+		// Tant que les étapes n'ont pas finies et donc que la valeur r3 ne vaut pas 0.
 		while(r3.intValue() != 0) {
-			//System.out.println("valeurs temp : r " + r2.toString() + " u " + u2.toString() + " v " + v2.toString());
+			// valeur temporaire utilisés plusieurs.
 			BigInteger valeurR1R2 = r1.divide(r2);
+			// On avance d'une étape en appliquant les calculs et en répercutant les calculs précédants.
 			r3 = r1.subtract((valeurR1R2.multiply(r2)));
 			u3 = u1.subtract((valeurR1R2.multiply(u2)));
 			v3 = v1.subtract((valeurR1R2.multiply(v2)));
@@ -100,43 +101,31 @@ public class Main {
 			v2 = v3;
 		}
 		
-		System.out.println("Les valeurs avant le test (m, u) :    " + m.toString() + "     " + u1.toString());
-		
+		// Si la valeur final de u n'est pas entre 2 et m, il faut exécuter des opérations supplémentaires.
 		if((u1.compareTo(valeurDeux) == -1) || u1.compareTo(m) == 1) {
+			// On doit soustraire -m à u.
 			BigInteger k = BigInteger.valueOf(-1);
 			BigInteger result = u1.subtract((k.multiply(m)));
-			/*
-			System.out.println("Message au-dessus du while de la création de la clé privée : "
-			+ " u2 " + u1.toString() + " k " + k.toString());
-			*/
+			// Tant que u n'est pas entre 2 et m on réapplique le même traitement.
 			while((result.compareTo(valeurDeux) == -1 || result.compareTo(m) == 1)) {
-				//System.out.println("Message dans le while de la création de la clé privée : " + " u1 " + u1.toString() + " k " + k.toString());
 				k = k.subtract(BigInteger.valueOf(1));
 				result = u1.subtract((k.multiply(m)));
 			}
+			// On est sortie de la boucle, on peut créer la clé privée à partir de n et de u.
 			clePrivee = new Pair(n, result);
 			u = result;
-			
-			System.out.println("u n'était pas dans l'intervalle de 2 et m");
-			System.out.println("La pair privée est (u,n) :    " + clePrivee.get_deuxieme().toString() + "     " + clePrivee.get_premier().toString() );
-			System.out.println("m vaut :      " + m.toString());
-
-			
-			return clePrivee;			
+			return clePrivee;	
 		} else {
+			// On peut directemment créer la clé privée à partir de n et de u.
 			clePrivee = new Pair(n, u1);
 			u = u1;
-			
-			System.out.println("u est déjà inférieur à m et supérieur à 2");
-			System.out.println("La pair privée est (u,n) :    " + clePrivee.get_deuxieme().toString() + "     " + clePrivee.get_premier().toString() );
-			System.out.println("m vaut :      " + m.toString());
-
 			return clePrivee;
 		}
 	}
 	
 	
 	
+	// Partie du chiffrement où on transforme un texte en suite de nombres ACSII.
 	public static ArrayList<Integer> ChiffrementTexteDebut(String texte) {
 		System.out.println("Le texte a déchiffré est :     " + texte);
 		ArrayList<Integer> listeNombres = new ArrayList<Integer>();
@@ -150,6 +139,7 @@ public class Main {
 	}
 	
 	
+	// Partie du chiffrement où on transforme un caractère en un nombre ASCII.
 	public static int ChiffrementCaractere(char caractere) {
 		return (int)caractere;
 	}
@@ -182,9 +172,6 @@ public class Main {
 			
 			System.out.println(valeurTempo.toString());
 
-			System.out.println(valeurTempo.intValue());
-
-			
 			listeNombresMiDechiffres.add(valeurTempo.intValue());
 			//double valeurTempo = Math.pow(listeNombresChiffres.get(i), 4279);//e.intValue());
 			//listeNombresMiDechiffres.add((int)(valeurTempo % 5141));//n.doubleValue()));
@@ -221,7 +208,7 @@ public class Main {
 		
 		Pair clePublique = creationClePublique();
 		
-		Pair clePrivee = creationClePrivee();
+		Pair clePrivee = creationClePrivee(clePublique, m);
 		
 		String texte = "Bonjour !";
 		
