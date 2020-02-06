@@ -25,38 +25,44 @@ public class Main {
 	
 	//Créer une clé publique.
 	public static Pair creationClePublique() {
+		/**
+		 * p et q nombres premiers aléatoires où p != q
+		 */
 		Random random1 = new Random();
 		Random random2 = new Random();
 		p = BigInteger.probablePrime(500, random1);
 		q = BigInteger.probablePrime(500, random2);
 		BigInteger un = new BigInteger("1");
 		
+		
+		/**
+		 * n = p*q
+		 * m = (p-1) * (q-1)
+		 */
 		n = p.multiply(q);
 		m = (p.subtract(un)).multiply(q.subtract(un));
 		
 		e = choisirExposantPublic(m);
 		clePublique = new Pair(n,e);
 		
-		/*
-		p = BigInteger.valueOf(53);
-		q = BigInteger.valueOf(97);
-		m = BigInteger.valueOf(4992);
-		n = BigInteger.valueOf(5141);
-		e = BigInteger.valueOf(7);
-		*/
-		
 		return clePublique;
 	}
 	
-	// Renvoi l'exposant publique à partir de m.
+	/**
+	 * Renvoie l'exposant publique e, petit entier impair et premier avec m.
+	 * @param m
+	 * @return
+	 */
 	public static BigInteger choisirExposantPublic(BigInteger m) {
 		BigInteger e = new BigInteger("0");
 		BigInteger temp = new BigInteger("0");
 		temp = e.gcd(m);
+		// Tant que e n'est pas le gcd de m, on prend une nouvelle aléatoire pour e.
 		while(temp.toString().equals("0") || !temp.toString().equals("1")) {
 			double valeurRandomDouble = Math.random()*10000;
 			long valeurRand = (long)valeurRandomDouble;
 			e = BigInteger.valueOf(valeurRand);
+			// e ne peut pas être pair.
 			if(e.intValue() % 2 == 0) {
 				e = e.add(BigInteger.valueOf(1));
 			}
@@ -65,8 +71,9 @@ public class Main {
 		return e;
 	}
 	
-	
+	// 
 	public static Pair creationClePrivee() {
+		System.out.println("valeur de e : " + e.intValue());
 		BigInteger r1 = BigInteger.valueOf(e.intValue());
 		BigInteger r2 = BigInteger.valueOf(m.intValue());
 		BigInteger r3 = BigInteger.valueOf(1);
@@ -89,14 +96,13 @@ public class Main {
 			v1 = v2;
 			v2 = v3;
 		}
-		if(!(u1.intValue() < 2) || !(u1.intValue() > m.intValue())) {
+		if((u1.intValue() < 2) || (u1.intValue() > m.intValue())) {
 			BigInteger k = BigInteger.valueOf(-1);
 			BigInteger result = u1.subtract((k.multiply(m)));
-			System.out.println("Message au-dessus du while de la création de la clé privée : result " + result.toString() 
-			+ " u2 " + u1.toString() + " k " + k.toString() + " m " + m.toString());			
+			System.out.println("Message au-dessus du while de la création de la clé privée : "
+			+ " u2 " + u1.toString() + " k " + k.toString());			
 			while((result.intValue() < 2 || result.intValue() > m.intValue()) && k.intValue() > -50 ) {
-				System.out.println("Message dans le while de la création de la clé privée : result " + result.toString() 
-				+ " u1 " + u1.toString() + " k " + k.toString() + " m " + m.toString());
+				System.out.println("Message dans le while de la création de la clé privée : " + " u1 " + u1.toString() + " k " + k.toString());
 				k = k.subtract(BigInteger.valueOf(1));
 				result = u1.subtract((k.multiply(m)));
 			}
@@ -175,6 +181,8 @@ public class Main {
 		
 		String texte = "Bonjour !";
 		
+		System.out.println("Valeurs : " + e.intValue());
+		
 		ArrayList<Integer> listeNombresMiChiffrement = ChiffrementTexteDebut(texte);
 		
 		ArrayList<BigInteger> listeNombresChiffres = ChiffrementTexteFin(listeNombresMiChiffrement);
@@ -183,10 +191,10 @@ public class Main {
 		
 		String texteDechiffre = DechiffrementTexteFin(listeNombresMiDechiffrement);
 		
-		System.out.println("Yo vla les results clé publics : " + clePublique.get_premier().toString() 
+		System.out.println("les results clé publics : " + clePublique.get_premier().toString() 
 				+ "  " + clePublique.get_deuxieme().toString());
 		
-		System.out.println("Yo vla les results clé privées : " + clePrivee.get_premier().toString() 
+		System.out.println("les results clé privées : " + clePrivee.get_premier().toString() 
 				+ "  " + clePrivee.get_deuxieme().toString());
 		
 		System.out.println(texte);
