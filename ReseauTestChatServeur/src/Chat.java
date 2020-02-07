@@ -103,9 +103,9 @@ public class Chat {
 					writer.flush();
 				}else {
 					if(i == 0) {
-						System.out.println("Alice a envoyé le message chiffré : "  + message);
+						System.out.println("Alice a envoyé le message : "  + message);
 					}else {
-						System.out.println("Bob a envoyé le message chiffré : "  + message);
+						System.out.println("Bob a envoyé le message : "  + message);
 					}
 				}
 			}catch (IOException e) {
