@@ -18,7 +18,7 @@ public class ClientEnvoie extends Client {
 			while(!fin){
 				
 				BufferedReader clavier = new BufferedReader(new InputStreamReader(System.in));
-				System.out.println("*Envoyer un message : ");
+				System.out.println("**Envoyer un message : ");
 				String texte = clavier.readLine();
 				
 				//lecture du texte noté par l'utilisateur
@@ -29,7 +29,7 @@ public class ClientEnvoie extends Client {
 				} 
 				//si texte="/cp" envoi de la clé publique
 				if(texte.matches("/cp")){
-					System.out.println("*Partage de votre clé publique ");
+					System.out.println("**Partage de votre clé publique**");
 					sortie.println("/cp " + chiffrage.clePublique.get_premier() + " " + chiffrage.clePublique.get_deuxieme());
 				}
 				
