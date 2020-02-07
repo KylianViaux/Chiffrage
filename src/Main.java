@@ -208,17 +208,17 @@ public class Main {
 	 */
 	public static String DechiffrementTexteFin(ArrayList<Integer> listeNombresDechiffres) {
 		String texte = "";
-		System.out.print("Le texte mi déchiffré :       ");
 		for(int i = 0; i < listeNombresDechiffres.size(); i++) {
 			texte = texte.concat(DechiffrementCaractere(listeNombresDechiffres.get(i)));
-			System.out.print(listeNombresDechiffres.get(i) + " ");
 		}
-		System.out.println("");
-		System.out.println("Le texte déchiffré est :     " + texte);
 		return texte;
 	}
 	
-	
+	/**
+	 * Méthode permettant de passer d'un nombre ASCII à un String.
+	 * @param nombre : nombre ASCII
+	 * @return : String
+	 */
 	public static String DechiffrementCaractere(int nombre) {
 		return Character.toString((char) nombre);
 	}
