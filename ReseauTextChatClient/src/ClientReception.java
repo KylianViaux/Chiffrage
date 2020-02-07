@@ -54,7 +54,7 @@ public class ClientReception extends Client {
 						if(isNumeric(arrOfStr[0])) {
 							ArrayList<BigInteger> listeNombresChiffres = new ArrayList<BigInteger>();
 							for (String number : arrOfStr) 
-								listeNombresChiffres.add(BigInteger.valueOf(Integer.parseInt(number)));
+								listeNombresChiffres.add(new BigInteger(number));
 							
 							//Déchiffrement du message
 							ArrayList<Integer> listeNombresMiDechiffrement = chiffrage.DechiffrementTexteDebut(listeNombresChiffres);	
