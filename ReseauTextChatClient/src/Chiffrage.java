@@ -63,7 +63,7 @@ public class Chiffrage {
 		// Valeur temporaire pour 2 pour les tests.
 		BigInteger valeurDeux = BigInteger.valueOf(2);
 		// La valeur e
-		BigInteger r1 = clePublic.get_deuxieme();
+		BigInteger r1 = clePublique.get_deuxieme();
 		// La valeur m
 		BigInteger r2 = m;
 		// Les différentes valeurs pour les valeurs r3, u1, u2, u2, u3, v1, v2, v3.
