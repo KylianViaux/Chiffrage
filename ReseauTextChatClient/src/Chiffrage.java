@@ -25,7 +25,7 @@ public class Chiffrage {
 		m = (p.subtract(un)).multiply(q.subtract(un));
 		
 		// Création de l'exposant public.
-		BigInteger e = choisirExposantPublic(m);
+		BigInteger e = choisirExposantPublic();
 		// Création de la clé publique.
 		clePublique = new Pair(n,e);
 		// Renvoie la cé publique.	
@@ -101,11 +101,11 @@ public class Chiffrage {
 				result = u1.subtract((k.multiply(m)));
 			}
 			// On est sortie de la boucle, on peut créer la clé privée à partir de n et de u.
-			clePrivee = new Pair(n, result);
+			clePrivee = new Pair(clePublique.get_premier(), result);
 			return clePrivee;	
 		} else {
 			// On peut directemment créer la clé privée à partir de n et de u.
-			clePrivee = new Pair(n, u1);
+			clePrivee = new Pair(clePublique.get_premier(), u1);
 			return clePrivee;
 		}
 	}
