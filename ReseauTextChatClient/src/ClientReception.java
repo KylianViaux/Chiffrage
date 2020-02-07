@@ -6,6 +6,19 @@ import java.util.ArrayList;
 
 
 public class ClientReception extends Client {
+	
+	
+	public static boolean isNumeric(String strNum) {
+	    if (strNum == null) {
+	        return false;
+	    }
+	    try {
+	        double d = Double.parseDouble(strNum);
+	    } catch (NumberFormatException nfe) {
+	        return false;
+	    }
+	    return true;
+	}
 
 	public void run(){
 		try {
@@ -31,22 +44,26 @@ public class ClientReception extends Client {
 					
 					//si le message reçu commence par "/cp" on à reçu une clé publique 
 					if(arrOfStr[0].matches("/cp")) {
+						System.out.println("**Vous avez reçu une clé publique reçue**");
 						chiffrage.clePubliqueExterne = new Pair(new BigInteger(arrOfStr[1]), new BigInteger(arrOfStr[2]));
 					}	
 					//sinon c'est un message standart
 					else {
 						System.out.println("Message reçu : " + recept);
-			
+						
+						if(isNumeric(arrOfStr[0])) {
+							ArrayList<BigInteger> listeNombresChiffres = new ArrayList<BigInteger>();
+							for (String number : arrOfStr) 
+								listeNombresChiffres.add(BigInteger.valueOf(Integer.parseInt(number)));
+							
+							//Déchiffrement du message
+							ArrayList<Integer> listeNombresMiDechiffrement = chiffrage.DechiffrementTexteDebut(listeNombresChiffres);	
+							String texteDechiffre = chiffrage.DechiffrementTexteFin(listeNombresMiDechiffrement);
+							System.out.println("Message reçu déchiffré : " + texteDechiffre + "\n");
+						}
 						
 						//String[] arrOfStr = recept.split(" ", 0); 
-						ArrayList<BigInteger> listeNombresChiffres = new ArrayList<BigInteger>();
-						for (String number : arrOfStr) 
-							listeNombresChiffres.add(BigInteger.valueOf(Integer.parseInt(number)));
 						
-						//Déchiffrement du message
-						ArrayList<Integer> listeNombresMiDechiffrement = chiffrage.DechiffrementTexteDebut(listeNombresChiffres);	
-						String texteDechiffre = chiffrage.DechiffrementTexteFin(listeNombresMiDechiffrement);
-						System.out.println("Message reçu déchiffré : " + texteDechiffre + "\n");
 					}
 					
 					
