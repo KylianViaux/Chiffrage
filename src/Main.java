@@ -126,6 +126,11 @@ public class Main {
 	
 	
 	// Partie du chiffrement où on transforme un texte en suite de nombres ACSII.
+	/**
+	 * Méthode permettant de passer d'un texte à une liste de nombre ASCII.
+	 * @param texte : Texte à passer en forme ASCII.
+	 * @return : Liste de nombre ASCII correspondant au texte.
+	 */
 	public static ArrayList<Integer> ChiffrementTexteDebut(String texte) {
 		System.out.println("Le texte a déchiffré est :     " + texte);
 		ArrayList<Integer> listeNombres = new ArrayList<Integer>();
@@ -145,7 +150,13 @@ public class Main {
 	}
 	
 	
-	public static ArrayList<BigInteger> ChiffrementTexteFin(ArrayList<Integer> listeNombresMiChiffrement){
+	/**
+	 * Méthode permettant de chiffrer des nombres ASCII grâce à une clé public.
+	 * @param listeNombresMiChiffrement : Liste de nombres ASCII à chiffrer.
+	 * @param clePublic : Clé public permettant de chiffrer.
+	 * @return : Liste de nombres ASCII chiffrés.
+	 */
+	public static ArrayList<BigInteger> ChiffrementTexteFin(ArrayList<Integer> listeNombresMiChiffrement, Pair clePublic){
 		ArrayList<BigInteger> listeNombresChiffres = new ArrayList<BigInteger>();
 		for(int i= 0; i < listeNombresMiChiffrement.size(); i++) {
 			//double valeurTempo = Math.pow(listeNombresMiChiffrement.get(i), 7);//e.intValue());
@@ -164,7 +175,13 @@ public class Main {
 	}
 
 	
-	public static ArrayList<Integer> DechiffrementTexteDebut(ArrayList<BigInteger> listeNombresChiffres){
+	/**
+	 * Méthode permettant de déchiffrer une liste de nombre ASCII chiffrés pour obtenir une liste de nombre ASCII grâce à une clé privée.
+	 * @param listeNombresChiffres : Liste de nombres ASCII chiffrés.
+	 * @param clePrivee : Clé privée permetttant de déchiffrer les textes.
+	 * @return : Liste de nombres ASCII.
+	 */
+	public static ArrayList<Integer> DechiffrementTexteDebut(ArrayList<BigInteger> listeNombresChiffres, Pair clePrivee){
 		ArrayList<Integer> listeNombresMiDechiffres = new ArrayList<Integer>();
 		for(int i= 0; i < listeNombresChiffres.size(); i++) {
 			BigInteger valeurTempo = listeNombresChiffres.get(i);
@@ -184,6 +201,11 @@ public class Main {
 		return listeNombresMiDechiffres;
 	}
 	
+	/**
+	 * Méthode permettant de passer d'une liste de nombres ASCII à un texte correspondant.
+	 * @param listeNombresDechiffres : Liste de nombres ASCII.
+	 * @return : Texte correspondant à la liste de nombres ASCII.
+	 */
 	public static String DechiffrementTexteFin(ArrayList<Integer> listeNombresDechiffres) {
 		String texte = "";
 		System.out.print("Le texte mi déchiffré :       ");
